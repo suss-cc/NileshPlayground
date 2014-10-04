@@ -1,9 +1,24 @@
-﻿
+﻿@{
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "Home Page";
+       var db= Database.Open("StarterSite");
+       var s=WebSecurity.CurrentUserId;
+    var Grid = new WebGrid(db.Query("SELECT TaskName,TaskType,eta,TaskState from TaskData where OwnerID= 'nileshpot@yahoo.com' "));
+     
+   
+
+}
+  @{
+    Layout = "~/_SiteLayout.cshtml";
+    Page.Title = "Home Page";
+       var db1= Database.Open("StarterSite");
+    var Grid1= new WebGrid(db1.Query("SELECT TaskName,TaskType,eta from TaskData where OwnerID in(select FriendID from FriendList where OwnerID='nileshpot@yahoo.com') and TaskState= 'Active' "));
+    }
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,13 +51,146 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
 
+        function fun1(id1) {
+
+
+            if (id1 == 'nil') {
+
+
+                var s = document.getElementById("drop");
+                s.options.length = 0;
+                var s1 = document.createElement('option');
+                s1.value = 1;
+                s1.text = " donate-books";
+                s.add(s1, 0);
+
+                var s2 = document.getElementById("drop");
+                var s3 = document.createElement('option');
+                s3.value = 1;
+                s3.text = "Conduct-Training-Session";
+                s2.add(s3, 0);
+
+            }
+            if (id1 == 'nil1') {
+
+                var s = document.getElementById("drop");
+                s.options.length = 0;
+                var s1 = document.createElement('option');
+                s1.value = 1;
+                s1.text = "lake-cleanup";
+                s.add(s1, 0);
+
+                var s2 = document.getElementById("drop");
+                var s3 = document.createElement('option');
+                s3.value = 1;
+                s3.text = "society-cleanup";
+                s2.add(s3, 0);
+
+            }
+
+            if (id1 == 'nil2') {
+
+                var s = document.getElementById("drop");
+                s.options.length = 0;
+                var s1 = document.createElement('option');
+                s1.value = 1;
+                s1.text = "medical-camp";
+                s.add(s1, 0);
+
+                var s2 = document.getElementById("drop");
+                var s3 = document.createElement('option');
+                s3.value = 1;
+                s3.text = "free-consulting";
+                s2.add(s3, 0);
+
+            }
+        }
+        function nilesh() 
+        {
+            try
+            {
+                $('#myModal').modal();                      // initialized with defaults
+                $('#myModal').modal({ keyboard: false });   // initialized with no keyboard
+                $('#myModal').modal('show');
+            
+                $('#myModal').modal('show');
+           }
+           catch (  exp )
+           {
+               alert(exp.toString());
+           } 
+        }
+    </script>
 </head>
 
 <body>
-
+    <!-- Modal -->
+<div class="modal-dialog" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span >&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...nilrsbg
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
     <div id="wrapper">
+        
+                <div class="col-lg-3 col-md-8">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            Create Task
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                           <button  id="nil" class="btn btn-default btn-circle btn-xl" type="button" onclick="fun1(this.id)"><i class="fa fa-check"></i>
 
+                           </button>
+                           <button id="nil1"class="btn btn-default btn-circle btn-xl" type="button" onclick="fun1(this.id)"><i class="fa fa-globe"></i>
+                           </button>
+                             <button id="nil2"class="btn btn-default btn-circle btn-xl" type="button"onclick="fun1(this.id)"><i class="fa fa-heart"></i>
+                           </button>
+                             <button id="nil3" class="btn btn-default btn-circle btn-xl" type="button"onclick="fun1(this.id)"><i class="fa fa-check"></i>
+                           </button>
+                           </br></br></br>
+                               <select class="form-control" id="drop">
+                                
+                            </select>
+                            </br>
+                            <button class="btn btn-outline btn-primary btn-lg" type="button" onclick="nilesh()">
+                            Create Task
+                            </button>
+
+
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+
+
+
+
+
+                            <!-- Button to trigger modal -->
+
+                               
+                            </div>
+                        </div>
+                    </div>
+        </div>
+
+       
         <!-- Navigation -->
        
             <!-- /.navbar-header -->
@@ -355,10 +503,65 @@
                             </div>
                         </a>
                     </div>
+                     
                 </div>
             </div>
+
+             <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            My Tasks
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                
+                                    
+            
+            @Grid.Table("table table-striped table-bordered table-hover",columns: Grid.Columns(
+
+                     Grid.Column("TaskName", "Tasks"),
+
+                    Grid.Column("TaskType", "Type"),
+                    Grid.Column("eta", "End Date")
+                    )
+                    )
                     
-                         
+                   
+           
+
+         </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+
+             <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            My Friends Activity
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+        
+     
+                  @Grid1.Table("table table-striped table-bordered table-hover",columns: Grid1.Columns(
+
+                     Grid1.Column("TaskName", "Tasks"),
+
+                    Grid1.Column("TaskType", "State"),
+                    Grid1.Column("eta", "End Date")
+
+                    )
+                     )
+                                 </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+          
+                         @{
+                          
+                                                      }
     
 
 </body>
